@@ -6,6 +6,8 @@ SENSOR_FLAG = "foo"
 SENSOR_READING = "bar"
 SOBER_CMD = "git commit -a -m"
 TOO_DRUNK_CMD = "git stash save"
+MAX_DRUNKNESS = 100
+MIN_DRUNKNESS = 10
 
 
 try:
