@@ -9,4 +9,8 @@ except:
     exit()
 
 while True:
-    print arduino.readline();
+    line = arduino.readline();
+    print line;
+
+    if line.find("foo") > -1:
+        print "o_0 you are drunk 0_o";
