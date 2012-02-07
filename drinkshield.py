@@ -12,19 +12,21 @@ MIN_DRUNKNESS = 10
 
 try:
     print "Get ready to blow..."
-    arduino = serial.Serial('/dev/ttyUSB0', 9600);
+    arduino = serial.Serial('/dev/ttyUSB0', 9600)
 except:
     print "Failed to connect"
     exit()
 
 while True:
-    line = arduino.readline();
-    print line;
+    line = arduino.readline()
+    print line
 
     if line.find(SENSOR_FLAG) > -1:
-        print "found reading for BAC";
-        BAC = line.substr(SENSOR_READING);
+        print "found reading for BAC"
+        readings = line.split(SENSOR_READING)
+        BAC = ' '.join(readings)
 
-        commit = SOBER_CMD + " " + ARG_MSG + BAC;
+        commit = SOBER_CMD + " " + ARG_MSG + " BAC:" + BAC
 
-        #subprocess.call(commit, shell=True);
+        print commit;
+        #subprocess.call(commit, shell=True)
