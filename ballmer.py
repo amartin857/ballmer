@@ -1,9 +1,9 @@
 #!/usr/bin/python
 
+import sys
 import subprocess
 import serial
 
-ARG_MSG = "message"
 SENSOR_FLAG = "foo"
 SENSOR_READING = "bar"
 SOBER_CMD = "git commit -a -m"
@@ -11,6 +11,9 @@ TOO_DRUNK_CMD = "git stash save"
 MAX_DRUNKNESS = 100
 MIN_DRUNKNESS = 10
 
+if len(sys.argv) == 1:
+    print "No action taken. Use 'ballmer test' or 'ballmer commit [message]'";
+    exit();
 
 try:
     print "Get ready to blow..."
@@ -25,10 +28,17 @@ while True:
 
     if line.find(SENSOR_FLAG) > -1:
         print "found reading for BAC"
-        readings = line.split(SENSOR_READING)
-        BAC = ' '.join(readings)
+        BAC = "foo" #TODO: actually populate this
 
-        commit = SOBER_CMD + " " + ARG_MSG + " BAC:" + BAC
+        if  sys.argv[1] == "test":
+            print "Your BAC Level is {something}"
 
-        print commit;
-        #subprocess.call(commit, shell=True)
+        elif sys.argv[1] == "commit":
+            commit_message = ""
+
+            if len(sys.argv) > 2:
+                commit_message += (sys.argv[2] + " BAC:" + BAC)
+
+            #TODO: split sober command with drunk one based on MAX
+
+            #subprocess.call(commit, shell=True)
