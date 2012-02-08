@@ -4,25 +4,25 @@ import sys
 import subprocess
 import serial
 
-SENSOR_FLAG = "foo"
-SENSOR_READING = "bar"
-MAX_DRUNKNESS = 100
-MIN_DRUNKNESS = 10
+# how shitfaced must you be to refuse a commit?
+MAX_DRUNKENNESS = 100
 
+# you need to pass an arg 
 if len(sys.argv) == 1:
     print "No action taken. Use 'ballmer test' or 'ballmer commit [message]'";
     exit();
 
+# arduino connection
 try:
     print "Get ready to blow..."
-    arduino = serial.Serial('/dev/ttyUSB0', 9600)
+    arduino = serial.Serial('/dev/cu.usbmodem641', 9600)
 except:
-    print "Failed to connect to Arduino."
-    print "If you're too drunk to connect the USB cable, GO HOME"
+    print "Arduino Fail. Go home, you must be drunk."
     exit();
 
+# helper functions
 def isSoberEnough( BAC ):
-    if BAC < MAX_DRUNKNESS:
+    if BAC < MAX_DRUNKENNESS:
         return True
     else:
         return False
@@ -34,20 +34,23 @@ def buildCommit( BAC ):
     return "git commit -a -m " + "\"" + commit_message + "\"";
 
 def getReadingFromLine( line ):
-    reading = "foo" #TODO: this
-    return reading; #just a stub for now
+    return int(float(line)); 
 
+# serial listening loop
 while True:
     line = arduino.readline()
-    print line
+    print line #TODO: rm this after debug
 
-    if line.find(SENSOR_FLAG) > -1:
+    #BAC = getReadingFromLine(line)
+    BAC = 0;
+
+    #TODO: need to set some kind of timeout
+    if BAC > 1:
         print "found reading for BAC" #TODO: rm this after debug
-        BAC = getReadingFromLine(line)
 
         # Test mode response
         if  sys.argv[1] == "test":
-            print "Your BAC Level is {something}"
+            print "Your drunkenness level is {something}"
             exit();
 
         # Commit mode response
