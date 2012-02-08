@@ -9,6 +9,9 @@ import serial
 MAX_DRUNKENNESS = 100
 MIN_DRUNKENNESS = 20
 
+# ascii art font
+t_font_name = "future"
+
 # you need to pass an arg 
 if len(sys.argv) == 1:
     print "No action taken. Use 'ballmer test' or 'ballmer commit [message]'";
@@ -45,10 +48,11 @@ def getReadingFromLine( line ):
     return int(float(line)); 
 
 def t_print( msg ):
-    t_font = "future"
-    t_args = "-f " + t_font + "-F crop --gay -F border "
-    cmd = "toilet " + t_args + "\""+msg+"\"";
+    args = "-f " + t_font_name + ".tlf -F crop --gay "
+    cmd = "toilet " + args + "\""+msg+"\"";
     subprocess.call(cmd, shell=True)
+
+t_print("this is a test");
 
 # serial listening loop
 while True:
