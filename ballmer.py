@@ -4,8 +4,10 @@ import sys
 import subprocess
 import serial
 
-# how shitfaced must you be to refuse a commit?
+# too shitfaced to commit code?
+# or not shitfaced enough? 
 MAX_DRUNKENNESS = 100
+MIN_DRUNKENNESS = 20
 
 # you need to pass an arg 
 if len(sys.argv) == 1:
@@ -21,6 +23,12 @@ except:
     exit();
 
 # helper functions
+def isTooSober( BAC ):
+    if BAC < MIN_DRUNKENNESS:
+        return True
+    else:
+        return False
+
 def isSoberEnough( BAC ):
     if BAC < MAX_DRUNKENNESS:
         return True
@@ -48,23 +56,36 @@ while True:
     if BAC > 1:
         print "found reading for BAC" #TODO: rm this after debug
 
-        # Test mode response
+        # Test mode
         if  sys.argv[1] == "test":
             print "Your drunkenness level is {something}"
             exit();
 
-        # Commit mode response
+        # Commit mode
         elif sys.argv[1] == "commit":
-            if isSoberEnough( BAC ):
+
+            # not drunk enough
+            if isTooSober( BAC ):
+                print "Looks like you could use another drink!"
+                print "Commiting your sober boring code"
                 subprocess.call(buildCommit( BAC ), shell=True)
                 exit();
+
+            # you might be in the Ballmer Peak 
+            elif isSoberEnough( BAC ):
+                print "You seem sober enough to commit code."
+                subprocess.call(buildCommit( BAC ), shell=True)
+                exit();
+
+            # you have a problem (3 problems if you're committing RegEx)
             else: 
-                subprocess.call("git stash save", shell=True)
                 print "Nothing committed."
                 print "Your changes have been stashed for tomorrow..."
                 print "GO HOME YOU ARE TOO DRUNK"
+                subprocess.call("git stash save", shell=True)
+                exit();
 
-        # You fucked up and/or can't type response
+        # You can't type 
         else:
             print "wtf is \"" + sys.argv[1] + "\"? Try \"commit\" or \"test\" or try sobering up."
             exit();
