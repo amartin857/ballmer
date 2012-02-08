@@ -44,6 +44,12 @@ def buildCommit( BAC ):
 def getReadingFromLine( line ):
     return int(float(line)); 
 
+def t_print( msg ):
+    t_font = "future"
+    t_args = "-f " + t_font + "-F crop --gay -F border "
+    cmd = "toilet " + t_args + "\""+msg+"\"";
+    subprocess.call(cmd, shell=True)
+
 # serial listening loop
 while True:
     line = arduino.readline()
