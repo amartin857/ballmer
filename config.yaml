@@ -1,4 +1,4 @@
 #Easy configuration
 #because i'll probably be drinking when I calibrate this.
-max_drunkenness = 140
-min_drunkenness = 20
+max_drunk: 161
+min_drunk: 40

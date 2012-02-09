@@ -5,10 +5,14 @@ import sys
 import subprocess
 import serial
 
+f = open('config.yaml')
+config = yaml.load(f);
+f.close();
+
 # too shitfaced to commit code?
 # or not shitfaced enough? 
-MAX_DRUNKENNESS = 130
-MIN_DRUNKENNESS = 20
+MAX_DRUNKENNESS = config['max_drunk']
+MIN_DRUNKENNESS = config['min_drunk'] 
 
 # helper functions
 def isTooSober( BAC ):
@@ -74,12 +78,12 @@ while True:
 
             # Test mode
             if  sys.argv[1] == "test":
-                print "Your drunkenness level is " + str(BAC)
+                print "Your drunkenness level is only " + str(BAC)
                 exit();
 
             # Commit mode
             elif sys.argv[1] == "commit":
-                print "Your drunkenness level is only " + str(BAC)
+                print "Your drunkenness level is " + str(BAC)
 
                 # not drunk enough
                 if isTooSober( BAC ):
