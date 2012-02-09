@@ -78,12 +78,12 @@ while True:
 
             # Commit mode
             elif sys.argv[1] == "commit":
-                print "Your drunkenness level is " + str(BAC)
+                print "Your drunkenness level is only " + str(BAC)
 
                 # not drunk enough
                 if isTooSober( BAC ):
                     print "Looks like you could use another drink!"
-                    print "Commiting your sober boring code"
+                    print "Commiting your sober code"
                     subprocess.call(buildCommit( BAC ), shell=True)
                     exit();
 
