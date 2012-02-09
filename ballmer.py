@@ -29,22 +29,18 @@ def buildCommit( BAC ):
     return "git commit -a -m " + "\"" + commit_message + "\"";
 
 def getReadingFromLine( line ):
-    return int(float(line)); 
+    return float(line); 
 
 def t_print( msg, hasColor ):
     if hasColor:
         args = "-F crop --gay --termwidth"
     else:
-        args = "-F crop -f ascii12.tlf --termwidth"
+        args = "-F crop --metal -f ascii12.tlf --termwidth"
     cmd = "toilet " + args + " \""+msg+"\"";
     subprocess.call(cmd, shell=True)
 
 t_print("party time", True);
 t_print("git commit", True);
-
-#t_print("GO HOME", False);
-#t_print("YOU ARE", False);
-#t_print("DRUNK", False);
 
 # you need to pass an arg 
 if len(sys.argv) == 1:
@@ -62,48 +58,49 @@ except:
 # serial listening loop
 while True:
     line = arduino.readline()
-    print line #TODO: rm this after debug
 
-    #BAC = getReadingFromLine(line)
-    BAC = 0;
+    if ( len(line) > 0 ):
 
-    #TODO: need to set some kind of timeout
-    if BAC > 1:
-        print "found reading for BAC" #TODO: rm this after debug
+        BAC = getReadingFromLine(line)
+        print BAC
 
-        # Test mode
-        if  sys.argv[1] == "test":
-            print "Your drunkenness level is {something}"
-            exit();
+        #TODO: need to set some kind of timeout
+        if BAC > 0:
+            print line #TODO: rm this after debug
 
-        # Commit mode
-        elif sys.argv[1] == "commit":
-
-            # not drunk enough
-            if isTooSober( BAC ):
-                print "Looks like you could use another drink!"
-                print "Commiting your sober boring code"
-                subprocess.call(buildCommit( BAC ), shell=True)
+            # Test mode
+            if  sys.argv[1] == "test":
+                print "Your drunkenness level is {something}"
                 exit();
 
-            # you might be in the Ballmer Peak 
-            elif isSoberEnough( BAC ):
-                print "You seem sober enough to commit code."
-                subprocess.call(buildCommit( BAC ), shell=True)
-                exit();
+            # Commit mode
+            elif sys.argv[1] == "commit":
 
-            # you have a problem (3 problems if you're committing RegEx)
-            else: 
-                print "Nothing committed."
-                print "Your changes have been stashed for tomorrow..."
-                t_print("GO HOME", False);
-                t_print("YOU ARE", False);
-                t_print("DRUNK", False);
-                subprocess.call("git stash save", shell=True)
-                exit();
+                # not drunk enough
+                if isTooSober( BAC ):
+                    print "Looks like you could use another drink!"
+                    print "Commiting your sober boring code"
+                    subprocess.call(buildCommit( BAC ), shell=True)
+                    exit();
 
-        # You can't type 
-        else:
-            print "wtf is \"" + sys.argv[1] + "\"? Try \"commit\" or \"test\" or try sobering up."
-            exit();
+                # you might be in the Ballmer Peak 
+                elif isSoberEnough( BAC ):
+                    print "You seem sober enough to commit code."
+                    subprocess.call(buildCommit( BAC ), shell=True)
+                    exit();
+
+                # you have a problem (3 problems if you're committing RegEx)
+                else: 
+                    print "Nothing committed."
+                    print "Your changes have been stashed for tomorrow..."
+                    t_print("GO HOME", False);
+                    t_print("YOU ARE", False);
+                    t_print("DRUNK", False);
+                    subprocess.call("git stash save", shell=True)
+                    exit();
+
+            # You can't type 
+            else:
+                print "wtf is \"" + sys.argv[1] + "\"? Try \"commit\" or \"test\" or try sobering up."
+                exit();
 
