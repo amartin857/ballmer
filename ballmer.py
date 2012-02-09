@@ -6,7 +6,7 @@ import serial
 
 # too shitfaced to commit code?
 # or not shitfaced enough? 
-MAX_DRUNKENNESS = 100
+MAX_DRUNKENNESS = 130
 MIN_DRUNKENNESS = 20
 
 # helper functions
@@ -29,7 +29,11 @@ def buildCommit( BAC ):
     return "git commit -a -m " + "\"" + commit_message + "\"";
 
 def getReadingFromLine( line ):
-    return float(line); 
+    segment = line[9:]
+    if len(segment) > 0:
+        return float(segment); 
+    else:
+        return 0;
 
 def t_print( msg, hasColor ):
     if hasColor:
@@ -59,18 +63,20 @@ except:
 while True:
     line = arduino.readline()
 
+    # DEBUG
+    if  sys.argv[1] == "test":
+        print line
+
     if ( len(line) > 0 ):
 
         BAC = getReadingFromLine(line)
-        print BAC
 
         #TODO: need to set some kind of timeout
         if BAC > 0:
-            print line #TODO: rm this after debug
 
             # Test mode
             if  sys.argv[1] == "test":
-                print "Your drunkenness level is {something}"
+                print "Your drunkenness level is " + str(BAC)
                 exit();
 
             # Commit mode
