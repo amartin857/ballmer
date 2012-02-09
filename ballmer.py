@@ -25,7 +25,9 @@ def isSoberEnough( BAC ):
 def buildCommit( BAC ):
     commit_message = ""
     if len(sys.argv) > 2:
-        commit_message += (sys.argv[2] + " BAC:" + BAC)
+        commit_message += ( sys.argv[2] + " BAC:" + str(BAC) );
+    else:
+        commit_message = "BAC: " + str(BAC);
     return "git commit -a -m " + "\"" + commit_message + "\"";
 
 def getReadingFromLine( line ):
