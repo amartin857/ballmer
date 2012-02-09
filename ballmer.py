@@ -63,15 +63,10 @@ except:
 while True:
     line = arduino.readline()
 
-    # DEBUG
-    if  sys.argv[1] == "test":
-        print line
-
     if ( len(line) > 0 ):
 
         BAC = getReadingFromLine(line)
 
-        #TODO: need to set some kind of timeout
         if BAC > 0:
 
             # Test mode
@@ -81,6 +76,7 @@ while True:
 
             # Commit mode
             elif sys.argv[1] == "commit":
+                print "Your drunkenness level is " + str(BAC)
 
                 # not drunk enough
                 if isTooSober( BAC ):
