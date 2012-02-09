@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+import yaml
 import sys
 import subprocess
 import serial
