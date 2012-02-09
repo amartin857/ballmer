@@ -8,7 +8,6 @@ int lightLevel;        // Current LED level
 
 int highVal = 0; // highest value from sensor
 int currentVal;  // current value from sensor
-int timesRegistered = 0; // stops high value from hitting serial connection more than once
 
 void setup()
 {
@@ -23,11 +22,6 @@ void setup()
 
 void loop()
 {
-        
-   // unless we've sent a high water mark reading, send 0
-   if(timesRegistered < 1) {
-     Serial.print("0\n");
-   }
     
   int val = ds.getReading();
   
@@ -45,12 +39,10 @@ void loop()
       highVal = currentVal; 
     }
       
-    // until the current val drops below high val -
-    // this means we've hit the high water mark;
-    // or more acurately, the high alcohol mark.
+    // when the current val drops below high val -
+    // this means we've hit the high alcohol mark.
     if( (timesRegistered < 1) && (currentVal < highVal) ) {
-      Serial.print( String(highVal) );
-      timesRegistered = 1;
+      Serial.print( String(highVal)+"\n" );
     }
 
       
