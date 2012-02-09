@@ -9,22 +9,6 @@ import serial
 MAX_DRUNKENNESS = 100
 MIN_DRUNKENNESS = 20
 
-# ascii art font
-t_font_name = "future"
-
-# you need to pass an arg 
-if len(sys.argv) == 1:
-    print "No action taken. Use 'ballmer test' or 'ballmer commit [message]'";
-    exit();
-
-# arduino connection
-try:
-    print "Get ready to blow..."
-    arduino = serial.Serial('/dev/cu.usbmodem641', 9600)
-except:
-    print "Arduino Fail. Go home, you must be drunk."
-    exit();
-
 # helper functions
 def isTooSober( BAC ):
     if BAC < MIN_DRUNKENNESS:
@@ -47,12 +31,33 @@ def buildCommit( BAC ):
 def getReadingFromLine( line ):
     return int(float(line)); 
 
-def t_print( msg ):
-    args = "-f " + t_font_name + ".tlf -F crop --gay "
-    cmd = "toilet " + args + "\""+msg+"\"";
+def t_print( msg, hasColor ):
+    if hasColor:
+        args = "-F crop --gay --termwidth"
+    else:
+        args = "-F crop -f ascii12.tlf --termwidth"
+    cmd = "toilet " + args + " \""+msg+"\"";
     subprocess.call(cmd, shell=True)
 
-t_print("this is a test");
+t_print("party time", True);
+t_print("git commit", True);
+
+#t_print("GO HOME", False);
+#t_print("YOU ARE", False);
+#t_print("DRUNK", False);
+
+# you need to pass an arg 
+if len(sys.argv) == 1:
+    print "No action taken. Use 'ballmer test' or 'ballmer commit [message]'";
+    exit();
+
+# arduino connection
+try:
+    print "Get ready to blow..."
+    arduino = serial.Serial('/dev/cu.usbmodem641', 9600)
+except:
+    print "Arduino Fail. Go home, you must be drunk."
+    exit();
 
 # serial listening loop
 while True:
@@ -91,7 +96,9 @@ while True:
             else: 
                 print "Nothing committed."
                 print "Your changes have been stashed for tomorrow..."
-                print "GO HOME YOU ARE TOO DRUNK"
+                t_print("GO HOME", False);
+                t_print("YOU ARE", False);
+                t_print("DRUNK", False);
                 subprocess.call("git stash save", shell=True)
                 exit();
 
