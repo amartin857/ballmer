@@ -3,7 +3,7 @@
 max_drunk: 60
 min_drunk: 5
 
-demo_max_drunk:  180
+demo_max_drunk:  140
 demo_min_drunk: 20
 
 game_max_drunk: 70
