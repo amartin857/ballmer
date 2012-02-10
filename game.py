@@ -70,7 +70,9 @@ while True:
             if isTooSober( BAC ):
                 t_print( str(BAC), False);
                 print "You blew a " + str(BAC);
-                print "You could use another drink!"
+                t_print( " ", False);
+                t_print("you could", True);
+                t_print("use a drink", True);
 
             # you might be in the Ballmer Peak 
             elif isSoberEnough( BAC ):
