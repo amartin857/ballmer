@@ -83,6 +83,7 @@ while True:
 
             # Commit mode
             elif sys.argv[1] == "commit":
+                t_print( str(BAC, False) );
                 print "Your drunkenness level is " + str(BAC)
 
                 # not drunk enough
