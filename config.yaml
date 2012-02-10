@@ -1,6 +1,6 @@
 #Easy configuration
 #because i'll probably be drinking when I calibrate this.
-max_drunk: 90
+max_drunk: 60
 min_drunk: 5
 
 demo_max_drunk:  180
