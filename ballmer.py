@@ -11,8 +11,8 @@ f.close();
 
 # too shitfaced to commit code?
 # or not shitfaced enough? 
-MAX_DRUNKENNESS = config['max_drunk']
-MIN_DRUNKENNESS = config['min_drunk'] 
+MAX_DRUNKENNESS = config['demo_max_drunk']
+MIN_DRUNKENNESS = config['demo_min_drunk'] 
 
 # helper functions
 def isTooSober( BAC ):
