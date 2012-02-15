@@ -1,5 +1,8 @@
 #!/usr/bin/python
 
+# This is the "game" version of ballmer
+# as seen at the party after hackathon demos...
+
 import yaml
 import sys
 import subprocess
